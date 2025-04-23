@@ -1,0 +1,6 @@
+[submodule "Tasaly/vendor/spdlog"]
+	path = Tasaly/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Tasaly/vendor/GLFW"]
+	path = Tasaly/vendor/GLFW
+	url = https://github.com/TheCherno/glfw

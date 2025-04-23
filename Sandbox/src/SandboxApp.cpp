@@ -1,3 +1,6 @@
+#include <functional>
+#include <sstream>
+
 #include <Tasaly.h>
 
 class Sandbox: public Tasaly::Application
