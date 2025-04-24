@@ -1,5 +1,6 @@
 workspace "Tasaly"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -23,6 +24,7 @@ project "Tasaly"
 	location "Tasaly"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -55,7 +57,6 @@ project "Tasaly"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "off"
 		systemversion "latest"
 
 		defines
@@ -74,28 +75,29 @@ project "Tasaly"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
 		defines "TS_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 			
 	filter "configurations:Release"
 		defines "TS_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 			
 	filter "configurations:Dist"
 		defines "TS_DIST"
-		buildoptions "/MDd"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -114,7 +116,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "off"
 		systemversion "latest"
 
 		defines
@@ -134,14 +135,17 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "TS_DEBUG"
+		runtime "Debug"
 		symbols "On"
 			
 	filter "configurations:Release"
 		defines "TS_RELEASE"
+		runtime "Release"
 		optimize "On"
 			
 	filter "configurations:Dist"
 		defines "TS_DIST"
+		runtime "Release"
 		optimize "On"
 
 
