@@ -40,6 +40,12 @@
     <ClInclude Include="src\Tasaly\Events\MouseEvent.h">
       <Filter>Tasaly\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tasaly\Layer.h">
+      <Filter>Tasaly</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tasaly\LayerStack.h">
+      <Filter>Tasaly</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tasaly\Log.h">
       <Filter>Tasaly</Filter>
     </ClInclude>
@@ -53,6 +59,12 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Tasaly\Application.cpp">
+      <Filter>Tasaly</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tasaly\Layer.cpp">
+      <Filter>Tasaly</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tasaly\LayerStack.cpp">
       <Filter>Tasaly</Filter>
     </ClCompile>
     <ClCompile Include="src\Tasaly\Log.cpp">

@@ -3,10 +3,31 @@
 
 #include <Tasaly.h>
 
+class ExampleLayer : public Tasaly::Layer
+{
+public:
+	ExampleLayer():
+		Layer("Example")
+	{}
+
+	void OnUpdate() override
+	{
+		TS_INFO("ExampleLayer::Update");
+	}
+
+	void OnEvent(Tasaly::Event& event) override
+	{
+		TS_TRACE("{0}", event.ToString());
+	}
+};
+
 class Sandbox: public Tasaly::Application
 {
 public:
-	Sandbox() {}
+	Sandbox()
+	{
+		PushLayer(new ExampleLayer());
+	}
 	~Sandbox() {}
 
 private:

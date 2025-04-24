@@ -38,6 +38,8 @@ namespace Tasaly {
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
 
+		bool IsHandled() const { return m_Handled; }
+
 		inline bool IsIntCategory(EventCategory category)
 		{
 			return GetCategoryFlags() & category;
