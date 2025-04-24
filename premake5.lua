@@ -12,7 +12,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 
 IncludeDir["GLFW"] = "Tasaly/vendor/GLFW/include"
+IncludeDir["Glad"] = "Tasaly/vendor/Glad/include"
+
 include "Tasaly/vendor/GLFW"
+include "Tasaly/vendor/Glad"
 
 project "Tasaly"
 	location "Tasaly"
@@ -35,12 +38,14 @@ project "Tasaly"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -51,6 +56,8 @@ project "Tasaly"
 
 		defines
 		{
+			"GLFW_INCLUDE_NONE",
+
 			"TS_PLATFORM_WINDOWS",
 			"TS_ENABLE_ASSERTS",
 			"TS_BUILD_DLL"
