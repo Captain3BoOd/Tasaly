@@ -9,7 +9,7 @@ namespace Tasaly {
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 

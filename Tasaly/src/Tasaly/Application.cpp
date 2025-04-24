@@ -4,9 +4,9 @@
 #include "Tasaly/Events/ApplicationEvent.h"
 #include "Tasaly/Log.h"
 
-namespace Tasaly {
+#include <glad/glad.h>
 
-	#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+namespace Tasaly {
 
 	Application* Application::s_Instance = nullptr;
 
@@ -16,7 +16,7 @@ namespace Tasaly {
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallBack(BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallBack(TS_BIND_EVENT_FN(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -27,6 +27,9 @@ namespace Tasaly {
 	{
 		while (m_Running)
 		{
+			glClearColor(0.8f, 0.03f, 0.4f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
@@ -37,7 +40,7 @@ namespace Tasaly {
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClosed));
+		dispatcher.Dispatch<WindowCloseEvent>(TS_BIND_EVENT_FN(Application::OnWindowClosed));
 
 		TS_CORE_TRACE("{0}", e.ToString());
 
