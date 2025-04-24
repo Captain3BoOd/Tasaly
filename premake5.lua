@@ -13,9 +13,11 @@ IncludeDir = {}
 
 IncludeDir["GLFW"] = "Tasaly/vendor/GLFW/include"
 IncludeDir["Glad"] = "Tasaly/vendor/Glad/include"
+IncludeDir["ImGui"] = "Tasaly/vendor/imgui"
 
 include "Tasaly/vendor/GLFW"
 include "Tasaly/vendor/Glad"
+include "Tasaly/vendor/imgui"
 
 project "Tasaly"
 	location "Tasaly"
@@ -39,19 +41,21 @@ project "Tasaly"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links
 	{
 		"GLFW",
 		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
+		staticruntime "off"
 		systemversion "latest"
 
 		defines
@@ -110,7 +114,7 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
+		staticruntime "off"
 		systemversion "latest"
 
 		defines
