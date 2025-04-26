@@ -68,6 +68,10 @@
       <Filter>Tasaly</Filter>
     </ClInclude>
     <ClInclude Include="src\tspch.h" />
+    <ClInclude Include="src\Tasaly\Input.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Tasaly\KeyCodes.h" />
+    <ClInclude Include="src\Tasaly\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
@@ -92,5 +96,6 @@
       <Filter>Tasaly</Filter>
     </ClCompile>
     <ClCompile Include="src\tspch.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

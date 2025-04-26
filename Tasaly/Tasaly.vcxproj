@@ -170,11 +170,15 @@
     <ClInclude Include="src\Tasaly\Events\KeyEvent.h" />
     <ClInclude Include="src\Tasaly\Events\MouseEvent.h" />
     <ClInclude Include="src\Tasaly\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Tasaly\Input.h" />
+    <ClInclude Include="src\Tasaly\KeyCodes.h" />
     <ClInclude Include="src\Tasaly\Layer.h" />
     <ClInclude Include="src\Tasaly\LayerStack.h" />
     <ClInclude Include="src\Tasaly\Log.h" />
+    <ClInclude Include="src\Tasaly\MouseButtonCodes.h" />
     <ClInclude Include="src\Tasaly\Window.h" />
     <ClInclude Include="src\tspch.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
@@ -187,6 +191,7 @@
     <ClCompile Include="src\tspch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

@@ -12,12 +12,13 @@ public:
 
 	void OnUpdate() override
 	{
-		TS_INFO("ExampleLayer::Update");
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_TAB))
+			TS_INFO("TAB key is pressed");
 	}
 
 	void OnEvent(Tasaly::Event& event) override
 	{
-		TS_TRACE("{0}", event.ToString());
+		//TS_TRACE("{0}", event.ToString());
 	}
 };
 

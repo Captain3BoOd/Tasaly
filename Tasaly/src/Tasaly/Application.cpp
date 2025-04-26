@@ -4,6 +4,8 @@
 #include "Tasaly/Events/ApplicationEvent.h"
 #include "Tasaly/Log.h"
 
+#include "Input.h"
+
 #include <glad/glad.h>
 
 namespace Tasaly {
