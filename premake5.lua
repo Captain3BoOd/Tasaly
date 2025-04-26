@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Tasaly/vendor/GLFW/include"
 IncludeDir["Glad"] = "Tasaly/vendor/Glad/include"
 IncludeDir["ImGui"] = "Tasaly/vendor/imgui"
+IncludeDir["glm"] = "Tasaly/vendor/glm"
 
 include "Tasaly/vendor/GLFW"
 include "Tasaly/vendor/Glad"
@@ -44,7 +45,8 @@ project "Tasaly"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
 	}
 
 	links
@@ -111,7 +113,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Tasaly/vendor/spdlog/include",
-		"Tasaly/src"
+		"Tasaly/src",
+		"%{IncludeDir.glm}",
 	}
 
 	filter "system:windows"

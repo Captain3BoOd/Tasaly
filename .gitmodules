@@ -7,3 +7,6 @@
 [submodule "Tasaly/vendor/imgui"]
 	path = Tasaly/vendor/imgui
 	url = https://github.com/TheCherno/imgui
+[submodule "Tasaly/vendor/glm"]
+	path = Tasaly/vendor/glm
+	url = https://github.com/g-truc/glm

@@ -27,6 +27,9 @@
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRendererLoader.h">
       <Filter>Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
@@ -55,6 +58,12 @@
     <ClInclude Include="src\Tasaly\ImGui\ImGuiLayer.h">
       <Filter>Tasaly\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tasaly\Input.h">
+      <Filter>Tasaly</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tasaly\KeyCodes.h">
+      <Filter>Tasaly</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tasaly\Layer.h">
       <Filter>Tasaly</Filter>
     </ClInclude>
@@ -64,18 +73,20 @@
     <ClInclude Include="src\Tasaly\Log.h">
       <Filter>Tasaly</Filter>
     </ClInclude>
+    <ClInclude Include="src\Tasaly\MouseButtonCodes.h">
+      <Filter>Tasaly</Filter>
+    </ClInclude>
     <ClInclude Include="src\Tasaly\Window.h">
       <Filter>Tasaly</Filter>
     </ClInclude>
     <ClInclude Include="src\tspch.h" />
-    <ClInclude Include="src\Tasaly\Input.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
-    <ClInclude Include="src\Tasaly\KeyCodes.h" />
-    <ClInclude Include="src\Tasaly\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
       <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
@@ -96,6 +107,5 @@
       <Filter>Tasaly</Filter>
     </ClCompile>
     <ClCompile Include="src\tspch.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>
