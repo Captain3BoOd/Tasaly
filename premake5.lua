@@ -23,8 +23,9 @@ include "Tasaly/vendor/imgui"
 
 project "Tasaly"
 	location "Tasaly"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
 	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -58,7 +59,6 @@ project "Tasaly"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
@@ -83,22 +83,23 @@ project "Tasaly"
 	filter "configurations:Debug"
 		defines "TS_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 			
 	filter "configurations:Release"
 		defines "TS_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 			
 	filter "configurations:Dist"
 		defines "TS_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
 	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -119,7 +120,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
@@ -140,16 +140,16 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "TS_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 			
 	filter "configurations:Release"
 		defines "TS_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 			
 	filter "configurations:Dist"
 		defines "TS_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 

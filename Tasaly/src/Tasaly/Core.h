@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef TS_PLATFORM_WINDOWS
-	#ifdef TS_BUILD_DLL
-		#define TASALY_API __declspec(dllexport)
+	#ifdef TS_DYNAMIC_LINK
+		#ifdef TS_BUILD_DLL
+			#define TASALY_API __declspec(dllexport)
+		#else
+			#define TASALY_API __declspec(dllimport)
+		#endif // TS_BUILD_DLL
 	#else
-		#define TASALY_API __declspec(dllimport)
-	#endif // TS_BUILD_DLL
+		#define TASALY_API
+	#endif
 #else
 	#error Tasaly only support Windows!
 #endif // TS_PLATFORM_WINDOWS
