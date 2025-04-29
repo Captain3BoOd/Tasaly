@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tasaly/Window.h"
+#include "Tasaly/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -28,6 +29,7 @@ namespace Tasaly {
 		virtual void ShutDown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

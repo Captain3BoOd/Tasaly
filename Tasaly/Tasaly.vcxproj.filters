@@ -71,6 +71,8 @@
       <Filter>Tasaly</Filter>
     </ClInclude>
     <ClInclude Include="src\tspch.h" />
+    <ClInclude Include="src\Tasaly\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -98,5 +100,6 @@
       <Filter>Tasaly</Filter>
     </ClCompile>
     <ClCompile Include="src\tspch.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>
 </Project>
