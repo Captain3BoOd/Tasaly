@@ -7,6 +7,8 @@
 #include "Tasaly/Events/Event.h"
 #include "Tasaly/Events/ApplicationEvent.h"
 
+#include "Tasaly/ImGui/ImGuiLayer.h"
+
 namespace Tasaly {
 
 	class TASALY_API Application
@@ -28,6 +30,7 @@ namespace Tasaly {
 		bool OnWindowClosed(WindowCloseEvent& e);
 	private:
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:

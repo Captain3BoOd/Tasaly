@@ -114,6 +114,7 @@ project "Sandbox"
 	{
 		"Tasaly/vendor/spdlog/include",
 		"Tasaly/src",
+		"Tasaly/vendor",
 		"%{IncludeDir.glm}",
 	}
 

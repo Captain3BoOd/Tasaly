@@ -3,6 +3,8 @@
 
 #include <Tasaly.h>
 
+#include "imgui/imgui.h"
+
 class ExampleLayer : public Tasaly::Layer
 {
 public:
@@ -14,6 +16,13 @@ public:
 	{
 		if (Tasaly::Input::IsKeyPressed(TS_KEY_TAB))
 			TS_INFO("TAB key is pressed");
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("ExampleLayer");
+		ImGui::Text("Hello, World!");
+		ImGui::End();
 	}
 
 	void OnEvent(Tasaly::Event& event) override
@@ -28,7 +37,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverLay(new Tasaly::ImGuiLayer());
 	}
 	~Sandbox() {}
 
