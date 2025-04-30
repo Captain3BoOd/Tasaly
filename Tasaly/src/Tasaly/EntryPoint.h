@@ -6,7 +6,6 @@ extern Tasaly::Application* Tasaly::CreateApplication();
 	{
 		Tasaly::Log::Init();
 		TS_CORE_WARN("Initialized Log!");
-		TS_INFO("Hello! Var = {0}", 5);
 
 		auto app = Tasaly::CreateApplication();
 		app->Run();
