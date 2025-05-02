@@ -177,6 +177,7 @@
     <ClInclude Include="src\Tasaly\Log.h" />
     <ClInclude Include="src\Tasaly\MouseButtonCodes.h" />
     <ClInclude Include="src\Tasaly\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Tasaly\Renderer\Shader.h" />
     <ClInclude Include="src\Tasaly\Window.h" />
     <ClInclude Include="src\tspch.h" />
   </ItemGroup>
@@ -190,6 +191,7 @@
     <ClCompile Include="src\Tasaly\Layer.cpp" />
     <ClCompile Include="src\Tasaly\LayerStack.cpp" />
     <ClCompile Include="src\Tasaly\Log.cpp" />
+    <ClCompile Include="src\Tasaly\Renderer\Shader.cpp" />
     <ClCompile Include="src\tspch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
