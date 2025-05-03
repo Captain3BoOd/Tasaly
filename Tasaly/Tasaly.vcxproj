@@ -158,6 +158,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
@@ -176,12 +177,15 @@
     <ClInclude Include="src\Tasaly\LayerStack.h" />
     <ClInclude Include="src\Tasaly\Log.h" />
     <ClInclude Include="src\Tasaly\MouseButtonCodes.h" />
+    <ClInclude Include="src\Tasaly\Renderer\Buffer.h" />
     <ClInclude Include="src\Tasaly\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Tasaly\Renderer\Renderer.h" />
     <ClInclude Include="src\Tasaly\Renderer\Shader.h" />
     <ClInclude Include="src\Tasaly\Window.h" />
     <ClInclude Include="src\tspch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
@@ -191,6 +195,8 @@
     <ClCompile Include="src\Tasaly\Layer.cpp" />
     <ClCompile Include="src\Tasaly\LayerStack.cpp" />
     <ClCompile Include="src\Tasaly\Log.cpp" />
+    <ClCompile Include="src\Tasaly\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Tasaly\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Tasaly\Renderer\Shader.cpp" />
     <ClCompile Include="src\tspch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
