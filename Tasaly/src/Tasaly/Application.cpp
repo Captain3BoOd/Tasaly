@@ -75,7 +75,7 @@ namespace Tasaly {
 			}
 
 		)";
-		m_Shader = std::make_unique<Shader>(vertexShader, fragmentShader);
+		m_Shader.reset(Shader::Create(vertexShader, fragmentShader));
 	}
 
 	Application::~Application()
