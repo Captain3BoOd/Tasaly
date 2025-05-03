@@ -12,6 +12,27 @@ namespace Tasaly {
 
 	Application* Application::s_Instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch (type)
+		{
+			case Tasaly::ShaderDataType::Float:  return GL_FLOAT;
+			case Tasaly::ShaderDataType::Float2: return GL_FLOAT;
+			case Tasaly::ShaderDataType::Float3: return GL_FLOAT;
+			case Tasaly::ShaderDataType::Float4: return GL_FLOAT;
+			case Tasaly::ShaderDataType::Mat3:   return GL_FLOAT;
+			case Tasaly::ShaderDataType::Mat4:   return GL_FLOAT;
+			case Tasaly::ShaderDataType::Int:    return GL_INT;
+			case Tasaly::ShaderDataType::Int2:   return GL_INT;
+			case Tasaly::ShaderDataType::Int3:   return GL_INT;
+			case Tasaly::ShaderDataType::Int4:   return GL_INT;
+			case Tasaly::ShaderDataType::Bool:   return GL_BOOL;
+		}
+
+		TS_CORE_ASSERT(false, "UnKnown Shader Data Type");
+		return GL_NONE;
+	}
+
 	Application::Application()
 	{
 		TS_CORE_ASSERT(!s_Instance, "Application already exists!");
@@ -37,9 +58,31 @@ namespace Tasaly {
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		m_VertexBuffer->Bind();
 
-		// Vertex Attribute Pointer
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		{
+			BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_Position" }
+			};
+
+			m_VertexBuffer->SetLayout(layout);
+		}
+
+		const auto& layout = m_VertexBuffer->GetLayout();
+		uint32_t index = 0;
+		for (const auto& element : layout)
+		{
+			// Vertex Attribute Pointer
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(
+				index,
+				element.GetComponentCount(),
+				ShaderDataTypeToOpenGLBaseType(element.Type),
+				element.Normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)element.Offset
+			);
+
+			index++;
+		}
 
 		// Index Buffer
 		unsigned int indices[3] = {
