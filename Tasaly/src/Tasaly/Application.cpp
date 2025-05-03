@@ -45,8 +45,7 @@ namespace Tasaly {
 		PushOverLay(m_ImGuiLayer);
 
 		// Vertex Array
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
 
 		// Vertex Buffer
 		float vertices[3 * 3] = {
@@ -55,42 +54,78 @@ namespace Tasaly {
 			 0.0f,  0.5f, 0.0f
 		};
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		m_VertexBuffer->Bind();
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		{
-			BufferLayout layout = {
-				{ ShaderDataType::Float3, "a_Position" }
-			};
-
-			m_VertexBuffer->SetLayout(layout);
-		}
-
-		const auto& layout = m_VertexBuffer->GetLayout();
-		uint32_t index = 0;
-		for (const auto& element : layout)
-		{
-			// Vertex Attribute Pointer
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index,
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset
-			);
-
-			index++;
-		}
+		vertexBuffer->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" }
+		});
+		m_VertexArray->AddVertexBuffer(vertexBuffer); // must be after add a layout
 
 		// Index Buffer
 		unsigned int indices[3] = {
 			0, 1, 2
 		};
 
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(indices[0])));
-		m_IndexBuffer->Bind();
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(indices[0])));
+		m_VertexArray->SetIndexBuffer(indexBuffer);
+
+		// Square Draw Test
+		m_SquareVA.reset(VertexArray::Create());
+
+		// Vertex buffer for square draw test
+		float squareVertices[3 * 4] = {
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,  0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f
+		};
+		std::shared_ptr<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+
+		squareVB->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" }
+		});
+		m_SquareVA->AddVertexBuffer(squareVB); // must be after add a layout
+
+		// Index buffer for square draw test
+		unsigned int squareIndices[6] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		std::shared_ptr<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(squareIndices[0])));
+		m_SquareVA->SetIndexBuffer(squareIB);
+
+		// Square Draw Test Shaders
+		std::string SquarevertexShader = R"(
+			#version 450 core
+
+			layout(location = 0) in vec3 a_Position;
+			out vec3 v_Position;
+
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+
+		)";
+		std::string SquarefragmentShader = R"(
+			#version 450 core
+
+			layout(location = 0) out vec4 color;
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(v_Position * 0.25 + 0.25, 1.0);
+			}
+
+		)";
+		m_SquareShader.reset(Shader::Create(SquarevertexShader, SquarefragmentShader));
 
 		// Shaders
 		std::string vertexShader = R"(
@@ -132,10 +167,15 @@ namespace Tasaly {
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			// Square Draw Test
+			m_SquareShader->Bind();
+			m_SquareVA->Bind();
+			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 			// Draw
 			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			m_VertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

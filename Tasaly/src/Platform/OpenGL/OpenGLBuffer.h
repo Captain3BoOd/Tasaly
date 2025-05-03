@@ -8,7 +8,7 @@ namespace Tasaly {
 	{
 	public:
 		OpenGLVertexBuffer(float* data, uint32_t size);
-		virtual ~OpenGLVertexBuffer();
+		virtual ~OpenGLVertexBuffer() override;
 
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
@@ -25,7 +25,7 @@ namespace Tasaly {
 	{
 	public:
 		OpenGLIndexBuffer(uint32_t* data, uint32_t count);
-		virtual ~OpenGLIndexBuffer();
+		virtual ~OpenGLIndexBuffer() override;
 
 		virtual void Bind() const override;
 		virtual void UnBind() const override;

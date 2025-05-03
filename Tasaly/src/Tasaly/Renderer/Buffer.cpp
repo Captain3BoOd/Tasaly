@@ -21,12 +21,12 @@ namespace Tasaly {
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* data, uint32_t size)
+	IndexBuffer* IndexBuffer::Create(uint32_t* data, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case Tasaly::RendererAPI::None:   TS_CORE_ASSERT(false, "RendererAPI::None is not currently supported!"); return nullptr;
-			case Tasaly::RendererAPI::OpenGL: return new OpenGLIndexBuffer(data, size);
+			case Tasaly::RendererAPI::OpenGL: return new OpenGLIndexBuffer(data, count);
 			//case Tasaly::RendererAPI::Vulkan:
 			//case Tasaly::RendererAPI::Direct3D:
 		}

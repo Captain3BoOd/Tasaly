@@ -10,7 +10,7 @@ namespace Tasaly {
 	{
 	public:
 		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
-		virtual ~OpenGLShader();
+		virtual ~OpenGLShader() override;
 
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
