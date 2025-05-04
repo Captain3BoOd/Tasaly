@@ -4,34 +4,13 @@
 #include "Tasaly/Events/ApplicationEvent.h"
 #include "Tasaly/Log.h"
 
-#include "Input.h"
+#include "Tasaly/Renderer/Renderer.h"
 
-#include <glad/glad.h>
+#include "Input.h"
 
 namespace Tasaly {
 
 	Application* Application::s_Instance = nullptr;
-
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-			case Tasaly::ShaderDataType::Float:  return GL_FLOAT;
-			case Tasaly::ShaderDataType::Float2: return GL_FLOAT;
-			case Tasaly::ShaderDataType::Float3: return GL_FLOAT;
-			case Tasaly::ShaderDataType::Float4: return GL_FLOAT;
-			case Tasaly::ShaderDataType::Mat3:   return GL_FLOAT;
-			case Tasaly::ShaderDataType::Mat4:   return GL_FLOAT;
-			case Tasaly::ShaderDataType::Int:    return GL_INT;
-			case Tasaly::ShaderDataType::Int2:   return GL_INT;
-			case Tasaly::ShaderDataType::Int3:   return GL_INT;
-			case Tasaly::ShaderDataType::Int4:   return GL_INT;
-			case Tasaly::ShaderDataType::Bool:   return GL_BOOL;
-		}
-
-		TS_CORE_ASSERT(false, "UnKnown Shader Data Type");
-		return GL_NONE;
-	}
 
 	Application::Application()
 	{
@@ -164,18 +143,22 @@ namespace Tasaly {
 	{
 		while (m_Running)
 		{
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
+			RenderCommand::Clear();
 
-			// Square Draw Test
-			m_SquareShader->Bind();
-			m_SquareVA->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-			// Draw
-			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::BeginScene();
+			{
+				// Square Draw Test
+				m_SquareShader->Bind();
+				Renderer::Submit(m_SquareVA);
+
+				// Draw
+				m_Shader->Bind();
+				Renderer::Submit(m_VertexArray);
+			}
+			Renderer::EndScene();
+
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
