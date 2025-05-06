@@ -13,6 +13,8 @@
 #include "Tasaly/Renderer/Shader.h"
 #include "Tasaly/Renderer/Buffer.h"
 
+#include "Renderer/OrthographicCamera.h"
+
 namespace Tasaly {
 
 	class TASALY_API Application
@@ -43,6 +45,8 @@ namespace Tasaly {
 
 		std::shared_ptr<Shader> m_SquareShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;
 	};

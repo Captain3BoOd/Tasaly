@@ -12,7 +12,8 @@ namespace Tasaly {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application():
+		m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		TS_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
@@ -85,10 +86,12 @@ namespace Tasaly {
 			layout(location = 0) in vec3 a_Position;
 			out vec3 v_Position;
 
+			uniform mat4 u_ViewProjection;
+
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -113,10 +116,12 @@ namespace Tasaly {
 			layout(location = 0) in vec3 a_Position;
 			out vec3 v_Position;
 
+			uniform mat4 u_ViewProjection;
+
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -146,18 +151,20 @@ namespace Tasaly {
 			RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 			RenderCommand::Clear();
 
+			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			m_Camera.SetRotation(45.0f);
 
-			Renderer::BeginScene();
+			// Begin Scene
+			Renderer::BeginScene(m_Camera);
 			{
 				// Square Draw Test
-				m_SquareShader->Bind();
-				Renderer::Submit(m_SquareVA);
+				Renderer::Submit(m_SquareShader, m_SquareVA);
 
 				// Draw
-				m_Shader->Bind();
-				Renderer::Submit(m_VertexArray);
+				Renderer::Submit(m_Shader, m_VertexArray);
 			}
 			Renderer::EndScene();
+			// End Scene
 
 
 			for (Layer* layer : m_LayerStack)
