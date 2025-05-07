@@ -33,6 +33,7 @@ namespace Tasaly {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float m_LastFrameTime = 0;
 	private:
 		static Application* s_Instance;
 	};

@@ -168,6 +168,7 @@
     <ClInclude Include="src\Tasaly.h" />
     <ClInclude Include="src\Tasaly\Application.h" />
     <ClInclude Include="src\Tasaly\Core.h" />
+    <ClInclude Include="src\Tasaly\Core\Timestep.h" />
     <ClInclude Include="src\Tasaly\EntryPoint.h" />
     <ClInclude Include="src\Tasaly\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Tasaly\Events\Event.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src\Tasaly\LayerStack.h" />
     <ClInclude Include="src\Tasaly\Log.h" />
     <ClInclude Include="src\Tasaly\MouseButtonCodes.h" />
+    <ClInclude Include="src\Tasaly\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Tasaly\Renderer\Buffer.h" />
     <ClInclude Include="src\Tasaly\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Tasaly\Renderer\RenderCommand.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="src\Tasaly\Layer.cpp" />
     <ClCompile Include="src\Tasaly\LayerStack.cpp" />
     <ClCompile Include="src\Tasaly\Log.cpp" />
+    <ClCompile Include="src\Tasaly\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Tasaly\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Tasaly\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Tasaly\Renderer\Renderer.cpp" />

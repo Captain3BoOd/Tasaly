@@ -128,8 +128,10 @@ public:
 		m_Shader.reset(Tasaly::Shader::Create(vertexShader, fragmentShader));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Tasaly::Timestep ts) override
 	{
+		TS_TRACE("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliSeconds());
+
 		Tasaly::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 		Tasaly::RenderCommand::Clear();
 
@@ -147,36 +149,40 @@ public:
 			}
 			else
 			{
-				if (newRotation > 0.0f) newRotation -= m_CameraRotationSpeed;
-				else if (newRotation < 0.0f) newRotation += m_CameraRotationSpeed;
+				if (newRotation > 0.0f) newRotation -= m_CameraRotationSpeed * ts;
+				else if (newRotation < 0.0f) newRotation += m_CameraRotationSpeed * ts;
 
-				if (newPos.x > 0.0f) newPos.x -= m_CameraMoveSpeed;
-				else if (newPos.x < 0.0f) newPos.x += m_CameraMoveSpeed;
+				if (newPos.x > 0.0f) newPos.x -= m_CameraMoveSpeed * ts;
+				else if (newPos.x < 0.0f) newPos.x += m_CameraMoveSpeed * ts;
 
-				if (newPos.y > 0.0f) newPos.y -= m_CameraMoveSpeed;
-				else if (newPos.y < 0.0f) newPos.y += m_CameraMoveSpeed;
+				if (newPos.y > 0.0f) newPos.y -= m_CameraMoveSpeed * ts;
+				else if (newPos.y < 0.0f) newPos.y += m_CameraMoveSpeed * ts;
 			}
 		}
 		else
 		{
 			if (Tasaly::Input::IsKeyPressed(TS_KEY_UP))
-				newPos.y -= m_CameraMoveSpeed;
+				newPos.y -= m_CameraMoveSpeed * ts;
 			if (Tasaly::Input::IsKeyPressed(TS_KEY_DOWN))
-				newPos.y += m_CameraMoveSpeed;
+				newPos.y += m_CameraMoveSpeed * ts;
 			if (Tasaly::Input::IsKeyPressed(TS_KEY_RIGHT))
-				newPos.x -= m_CameraMoveSpeed;
+				newPos.x -= m_CameraMoveSpeed * ts;
 			if (Tasaly::Input::IsKeyPressed(TS_KEY_LEFT))
-				newPos.x += m_CameraMoveSpeed;
+				newPos.x += m_CameraMoveSpeed * ts;
 
 			if (Tasaly::Input::IsKeyPressed(TS_KEY_A))
-				newRotation += m_CameraRotationSpeed;
+				newRotation += m_CameraRotationSpeed * ts;
 			if (Tasaly::Input::IsKeyPressed(TS_KEY_D))
-				newRotation -= m_CameraRotationSpeed;
+				newRotation -= m_CameraRotationSpeed * ts;
+		}
 
-			if (Tasaly::Input::IsKeyPressed(TS_KEY_R))
-			{
-				m_InProccess = true;
-			}
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_R))
+		{
+			m_InProccess = true;
+		}
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_T))
+		{
+			m_InProccess = false;
 		}
 
 		m_Camera.SetPosition(newPos);
@@ -212,8 +218,8 @@ private:
 	std::shared_ptr<Tasaly::VertexArray> m_SquareVA;
 
 	Tasaly::OrthographicCamera m_Camera;
-	float m_CameraMoveSpeed = 0.03f;
-	float m_CameraRotationSpeed = 2.0f;
+	float m_CameraMoveSpeed = 3.0f;
+	float m_CameraRotationSpeed = 100.0f;
 
 	bool m_InProccess = false;
 };

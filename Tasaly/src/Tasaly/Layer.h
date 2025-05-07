@@ -3,6 +3,8 @@
 #include "Tasaly/Core.h"
 #include "Tasaly/Events/Event.h"
 
+#include "Tasaly/Core/Timestep.h"
+
 namespace Tasaly {
 
 	class TASALY_API Layer
@@ -13,7 +15,7 @@ namespace Tasaly {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& e) {}
 
