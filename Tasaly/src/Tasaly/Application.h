@@ -9,12 +9,6 @@
 
 #include "Tasaly/ImGui/ImGuiLayer.h"
 
-#include "Tasaly/Renderer/VertexArray.h"
-#include "Tasaly/Renderer/Shader.h"
-#include "Tasaly/Renderer/Buffer.h"
-
-#include "Renderer/OrthographicCamera.h"
-
 namespace Tasaly {
 
 	class TASALY_API Application
@@ -39,14 +33,6 @@ namespace Tasaly {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_SquareShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-
-		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;
 	};

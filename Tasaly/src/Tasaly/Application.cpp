@@ -12,8 +12,7 @@ namespace Tasaly {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application():
-		m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+	Application::Application()
 	{
 		TS_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
@@ -23,121 +22,6 @@ namespace Tasaly {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverLay(m_ImGuiLayer);
-
-		// Vertex Array
-		m_VertexArray.reset(VertexArray::Create());
-
-		// Vertex Buffer
-		float vertices[3 * 3] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
-		};
-
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		vertexBuffer->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" }
-		});
-		m_VertexArray->AddVertexBuffer(vertexBuffer); // must be after add a layout
-
-		// Index Buffer
-		unsigned int indices[3] = {
-			0, 1, 2
-		};
-
-		std::shared_ptr<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(indices[0])));
-		m_VertexArray->SetIndexBuffer(indexBuffer);
-
-		// Square Draw Test
-		m_SquareVA.reset(VertexArray::Create());
-
-		// Vertex buffer for square draw test
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
-		};
-		std::shared_ptr<VertexBuffer> squareVB;
-		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-
-		squareVB->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" }
-		});
-		m_SquareVA->AddVertexBuffer(squareVB); // must be after add a layout
-
-		// Index buffer for square draw test
-		unsigned int squareIndices[6] = {
-			0, 1, 2,
-			2, 3, 0
-		};
-
-		std::shared_ptr<IndexBuffer> squareIB;
-		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(squareIndices[0])));
-		m_SquareVA->SetIndexBuffer(squareIB);
-
-		// Square Draw Test Shaders
-		std::string SquarevertexShader = R"(
-			#version 450 core
-
-			layout(location = 0) in vec3 a_Position;
-			out vec3 v_Position;
-
-			uniform mat4 u_ViewProjection;
-
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-			}
-
-		)";
-		std::string SquarefragmentShader = R"(
-			#version 450 core
-
-			layout(location = 0) out vec4 color;
-			in vec3 v_Position;
-
-			void main()
-			{
-				color = vec4(v_Position * 0.25 + 0.25, 1.0);
-			}
-
-		)";
-		m_SquareShader.reset(Shader::Create(SquarevertexShader, SquarefragmentShader));
-
-		// Shaders
-		std::string vertexShader = R"(
-			#version 450 core
-
-			layout(location = 0) in vec3 a_Position;
-			out vec3 v_Position;
-
-			uniform mat4 u_ViewProjection;
-
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-			}
-
-		)";
-		std::string fragmentShader = R"(
-			#version 450 core
-
-			layout(location = 0) out vec4 color;
-			in vec3 v_Position;
-
-			void main()
-			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
-			}
-
-		)";
-		m_Shader.reset(Shader::Create(vertexShader, fragmentShader));
 	}
 
 	Application::~Application()
@@ -148,25 +32,6 @@ namespace Tasaly {
 	{
 		while (m_Running)
 		{
-			RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
-			RenderCommand::Clear();
-
-			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
-			m_Camera.SetRotation(45.0f);
-
-			// Begin Scene
-			Renderer::BeginScene(m_Camera);
-			{
-				// Square Draw Test
-				Renderer::Submit(m_SquareShader, m_SquareVA);
-
-				// Draw
-				Renderer::Submit(m_Shader, m_VertexArray);
-			}
-			Renderer::EndScene();
-			// End Scene
-
-
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
