@@ -3,6 +3,8 @@
 
 #include <Tasaly.h>
 
+#include<glm/gtc/matrix_transform.hpp>
+
 #include "imgui/imgui.h"
 
 class ExampleLayer : public Tasaly::Layer
@@ -10,6 +12,7 @@ class ExampleLayer : public Tasaly::Layer
 public:
 	ExampleLayer():
 		Layer("Example"),
+		m_SquarePosition(0.0f),
 		m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		// Vertex Array
@@ -75,11 +78,12 @@ public:
 			out vec3 v_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -105,11 +109,12 @@ public:
 			out vec3 v_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -149,32 +154,39 @@ public:
 			}
 			else
 			{
-				if (newRotation > 0.0f) newRotation -= m_CameraRotationSpeed * ts;
-				else if (newRotation < 0.0f) newRotation += m_CameraRotationSpeed * ts;
+				if (newRotation > 0.0f) newRotation -= m_CameraRotationSpeed * 0.5f * ts;
+				else if (newRotation < 0.0f) newRotation += m_CameraRotationSpeed * 0.5f * ts;
 
-				if (newPos.x > 0.0f) newPos.x -= m_CameraMoveSpeed * ts;
-				else if (newPos.x < 0.0f) newPos.x += m_CameraMoveSpeed * ts;
+				if (newPos.x > 0.0f) newPos.x -= m_CameraMoveSpeed * 0.5f * ts;
+				else if (newPos.x < 0.0f) newPos.x += m_CameraMoveSpeed * 0.5f * ts;
 
-				if (newPos.y > 0.0f) newPos.y -= m_CameraMoveSpeed * ts;
-				else if (newPos.y < 0.0f) newPos.y += m_CameraMoveSpeed * ts;
+				if (newPos.y > 0.0f) newPos.y -= m_CameraMoveSpeed * 0.5f * ts;
+				else if (newPos.y < 0.0f) newPos.y += m_CameraMoveSpeed * 0.5f * ts;
 			}
 		}
-		else
-		{
-			if (Tasaly::Input::IsKeyPressed(TS_KEY_UP))
-				newPos.y -= m_CameraMoveSpeed * ts;
-			if (Tasaly::Input::IsKeyPressed(TS_KEY_DOWN))
-				newPos.y += m_CameraMoveSpeed * ts;
-			if (Tasaly::Input::IsKeyPressed(TS_KEY_RIGHT))
-				newPos.x -= m_CameraMoveSpeed * ts;
-			if (Tasaly::Input::IsKeyPressed(TS_KEY_LEFT))
-				newPos.x += m_CameraMoveSpeed * ts;
 
-			if (Tasaly::Input::IsKeyPressed(TS_KEY_A))
-				newRotation += m_CameraRotationSpeed * ts;
-			if (Tasaly::Input::IsKeyPressed(TS_KEY_D))
-				newRotation -= m_CameraRotationSpeed * ts;
-		}
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_UP))
+			newPos.y -= m_CameraMoveSpeed * ts;
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_DOWN))
+			newPos.y += m_CameraMoveSpeed * ts;
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_RIGHT))
+			newPos.x -= m_CameraMoveSpeed * ts;
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_LEFT))
+			newPos.x += m_CameraMoveSpeed * ts;
+
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_I))
+			m_SquarePosition.y -= m_SquareMoveSpeed * ts;
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_K))
+			m_SquarePosition.y += m_SquareMoveSpeed * ts;
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_L))
+			m_SquarePosition.x -= m_SquareMoveSpeed * ts;
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_J))
+			m_SquarePosition.x += m_SquareMoveSpeed * ts;
+
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_E))
+			newRotation += m_CameraRotationSpeed * ts;
+		if (Tasaly::Input::IsKeyPressed(TS_KEY_Q))
+			newRotation -= m_CameraRotationSpeed * ts;
 
 		if (Tasaly::Input::IsKeyPressed(TS_KEY_R))
 		{
@@ -191,11 +203,20 @@ public:
 		// Begin Scene
 		Tasaly::Renderer::BeginScene(m_Camera);
 		{
-			// Square Draw Test
-			Tasaly::Renderer::Submit(m_SquareShader, m_SquareVA);
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+			for (size_t x = 0; x < 5; x++)
+			{
+				for (size_t y = 0; y < 5; y++)
+				{
+					glm::vec3 position(x * 0.11f, y * 0.11f, 0.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * scale;
+					Tasaly::Renderer::Submit(m_SquareShader, m_SquareVA, transform);
+				}
+			}
 
 			// Draw
-			Tasaly::Renderer::Submit(m_Shader, m_VertexArray);
+			//Tasaly::Renderer::Submit(m_Shader, m_VertexArray);
 		}
 		Tasaly::Renderer::EndScene();
 		// End Scene
@@ -220,6 +241,9 @@ private:
 	Tasaly::OrthographicCamera m_Camera;
 	float m_CameraMoveSpeed = 3.0f;
 	float m_CameraRotationSpeed = 100.0f;
+
+	glm::vec3 m_SquarePosition;
+	float m_SquareMoveSpeed = 2.5f;
 
 	bool m_InProccess = false;
 };
