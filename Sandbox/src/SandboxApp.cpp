@@ -3,7 +3,10 @@
 
 #include <Tasaly.h>
 
+#include "Platform/OpenGL/OpenGLShader.h" 
+
 #include<glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "imgui/imgui.h"
 
@@ -93,9 +96,11 @@ public:
 			layout(location = 0) out vec4 color;
 			in vec3 v_Position;
 
+			uniform vec3 u_Color;
+
 			void main()
 			{
-				color = vec4(v_Position * 0.25 + 0.25, 1.0);
+				color = vec4(u_Color, 1.0);
 			}
 
 		)";
@@ -189,13 +194,9 @@ public:
 			newRotation -= m_CameraRotationSpeed * ts;
 
 		if (Tasaly::Input::IsKeyPressed(TS_KEY_R))
-		{
 			m_InProccess = true;
-		}
 		if (Tasaly::Input::IsKeyPressed(TS_KEY_T))
-		{
 			m_InProccess = false;
-		}
 
 		m_Camera.SetPosition(newPos);
 		m_Camera.SetRotation(newRotation);
@@ -205,9 +206,16 @@ public:
 		{
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
+			glm::vec4 redColor(0.8f, 0.3f, 0.2f, 1.0f);
+			glm::vec4 blueColor(0.2f, 0.3f, 0.8f, 1.0f);
+			
+			std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_SquareShader)->Bind();
+			std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_SquareShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+
+
 			for (size_t x = 0; x < 5; x++)
 			{
-				for (size_t y = 0; y < 5; y++)
+				for (size_t y = x; y < 5; y++)
 				{
 					glm::vec3 position(x * 0.11f, y * 0.11f, 0.0f);
 					glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * scale;
@@ -224,7 +232,11 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-
+		ImGui::Begin("Settings");
+		{
+			ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+		}
+		ImGui::End();
 	}
 
 	void OnEvent(Tasaly::Event& event) override
@@ -246,6 +258,8 @@ private:
 	float m_SquareMoveSpeed = 2.5f;
 
 	bool m_InProccess = false;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
 class Sandbox: public Tasaly::Application
