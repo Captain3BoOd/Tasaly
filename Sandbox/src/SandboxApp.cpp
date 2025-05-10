@@ -28,7 +28,7 @@ public:
 			 0.0f,  0.5f, 0.0f
 		};
 
-		std::shared_ptr<Tasaly::VertexBuffer> vertexBuffer;
+		Tasaly::Ref<Tasaly::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Tasaly::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		vertexBuffer->SetLayout({
@@ -41,7 +41,7 @@ public:
 			0, 1, 2
 		};
 
-		std::shared_ptr<Tasaly::IndexBuffer> indexBuffer;
+		Tasaly::Ref<Tasaly::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Tasaly::IndexBuffer::Create(indices, sizeof(indices) / sizeof(indices[0])));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -55,7 +55,7 @@ public:
 			 0.5f,  0.5f, 0.0f,
 			-0.5f,  0.5f, 0.0f
 		};
-		std::shared_ptr<Tasaly::VertexBuffer> squareVB;
+		Tasaly::Ref<Tasaly::VertexBuffer> squareVB;
 		squareVB.reset(Tasaly::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
 		squareVB->SetLayout({
@@ -69,7 +69,7 @@ public:
 			2, 3, 0
 		};
 
-		std::shared_ptr<Tasaly::IndexBuffer> squareIB;
+		Tasaly::Ref<Tasaly::IndexBuffer> squareIB;
 		squareIB.reset(Tasaly::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(squareIndices[0])));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -244,11 +244,11 @@ public:
 
 	}
 private:
-	std::shared_ptr<Tasaly::Shader> m_Shader;
-	std::shared_ptr<Tasaly::VertexArray> m_VertexArray;
+	Tasaly::Ref<Tasaly::Shader> m_Shader;
+	Tasaly::Ref<Tasaly::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Tasaly::Shader> m_SquareShader;
-	std::shared_ptr<Tasaly::VertexArray> m_SquareVA;
+	Tasaly::Ref<Tasaly::Shader> m_SquareShader;
+	Tasaly::Ref<Tasaly::VertexArray> m_SquareVA;
 
 	Tasaly::OrthographicCamera m_Camera;
 	float m_CameraMoveSpeed = 3.0f;
