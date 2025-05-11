@@ -20,6 +20,7 @@
 
 #include "Tasaly/Renderer/Buffer.h"
 #include "Tasaly/Renderer/Shader.h"
+#include "Tasaly/Renderer/Texture.h"
 #include "Tasaly/Renderer/VertexArray.h"
 
 #include "Tasaly/Renderer/OrthographicCamera.h"

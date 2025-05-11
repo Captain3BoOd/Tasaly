@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "Tasaly/vendor/GLFW/include"
 IncludeDir["Glad"] = "Tasaly/vendor/Glad/include"
 IncludeDir["ImGui"] = "Tasaly/vendor/imgui"
 IncludeDir["glm"] = "Tasaly/vendor/glm"
+IncludeDir["stb_image"] = "Tasaly/vendor/stb_image"
 
 include "Tasaly/vendor/GLFW"
 include "Tasaly/vendor/Glad"
@@ -37,7 +38,13 @@ project "Tasaly"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
+
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 	}
 
 	includedirs
@@ -48,6 +55,7 @@ project "Tasaly"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
 	}
 
 	links

@@ -49,18 +49,19 @@ public:
 		m_SquareVA.reset(Tasaly::VertexArray::Create());
 
 		// Vertex buffer for square draw test
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		float squareVertices[3 * 4 + 2 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 		Tasaly::Ref<Tasaly::VertexBuffer> squareVB;
 		squareVB.reset(Tasaly::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
 		squareVB->SetLayout({
-			{ Tasaly::ShaderDataType::Float3, "a_Position" }
-			});
+			{ Tasaly::ShaderDataType::Float3, "a_Position" },
+			{ Tasaly::ShaderDataType::Float2, "a_TexCoord" }
+		});
 		m_SquareVA->AddVertexBuffer(squareVB); // must be after add a layout
 
 		// Index buffer for square draw test
@@ -136,6 +137,46 @@ public:
 
 		)";
 		m_Shader.reset(Tasaly::Shader::Create(vertexShader, fragmentShader));
+
+		// Texture Shader
+		std::string textureVertexShader = R"(
+			#version 450 core
+
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
+		)";
+		std::string textureFragmentShader = R"(
+			#version 450 core
+
+			layout(location = 0) out vec4 color;
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TexCoord);
+			}
+
+		)";
+
+		m_TextureShader.reset(Tasaly::Shader::Create(textureVertexShader, textureFragmentShader));
+		m_Texture = Tasaly::Texture2D::Create("assets/texture.png");
+
+		std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Tasaly::Timestep ts) override
@@ -212,7 +253,6 @@ public:
 			std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_SquareShader)->Bind();
 			std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_SquareShader)->UploadUniformFloat3("u_Color", m_SquareColor);
 
-
 			for (size_t x = 0; x < 5; x++)
 			{
 				for (size_t y = x; y < 5; y++)
@@ -222,6 +262,9 @@ public:
 					Tasaly::Renderer::Submit(m_SquareShader, m_SquareVA, transform);
 				}
 			}
+
+			m_Texture->Bind();
+			Tasaly::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 			// Draw
 			//Tasaly::Renderer::Submit(m_Shader, m_VertexArray);
@@ -247,8 +290,10 @@ private:
 	Tasaly::Ref<Tasaly::Shader> m_Shader;
 	Tasaly::Ref<Tasaly::VertexArray> m_VertexArray;
 
-	Tasaly::Ref<Tasaly::Shader> m_SquareShader;
+	Tasaly::Ref<Tasaly::Shader> m_SquareShader, m_TextureShader;
 	Tasaly::Ref<Tasaly::VertexArray> m_SquareVA;
+
+	Tasaly::Ref<Tasaly::Texture2D> m_Texture;
 
 	Tasaly::OrthographicCamera m_Camera;
 	float m_CameraMoveSpeed = 3.0f;
