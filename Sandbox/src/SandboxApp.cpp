@@ -174,6 +174,7 @@ public:
 
 		m_TextureShader.reset(Tasaly::Shader::Create(textureVertexShader, textureFragmentShader));
 		m_Texture = Tasaly::Texture2D::Create("assets/texture.png");
+		m_ChickenTexture = Tasaly::Texture2D::Create("assets/texture2.png");
 
 		std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<Tasaly::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
@@ -265,6 +266,8 @@ public:
 
 			m_Texture->Bind();
 			Tasaly::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			m_ChickenTexture->Bind();
+			Tasaly::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 			// Draw
 			//Tasaly::Renderer::Submit(m_Shader, m_VertexArray);
@@ -293,7 +296,7 @@ private:
 	Tasaly::Ref<Tasaly::Shader> m_SquareShader, m_TextureShader;
 	Tasaly::Ref<Tasaly::VertexArray> m_SquareVA;
 
-	Tasaly::Ref<Tasaly::Texture2D> m_Texture;
+	Tasaly::Ref<Tasaly::Texture2D> m_Texture, m_ChickenTexture;
 
 	Tasaly::OrthographicCamera m_Camera;
 	float m_CameraMoveSpeed = 3.0f;

@@ -7,12 +7,17 @@ namespace Tasaly {
 	class RenderCommand
 	{
 	public:
-		static void SetClearColor(const glm::vec4& color)
+		inline static void Init()
+		{
+			s_RendererAPI->Init();
+		}
+
+		inline static void SetClearColor(const glm::vec4& color)
 		{
 			s_RendererAPI->SetClearColor(color);
 		}
 
-		static void Clear()
+		inline static void Clear()
 		{
 			s_RendererAPI->Clear();
 		}
